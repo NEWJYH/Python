@@ -1,0 +1,484 @@
+DATABASE2 - MySQL
+
+1강 수업소개
+  관계형 데이터베이스
+  MySQL, Oracle, SQL Server, PostgreSQL, DB2, Access
+
+  1994 스웨덴에서 개발
+  WEB의 폭발적 성장 
+  시장의 지배자 
+  데이터 정리 
+
+2강 데이터베이스의 목적
+
+  스프레드시트와 데이터베이스의 공통점과 차이점
+  관계형데이터베이스의 장점 
+  데이터를 정리정돈 했을때 얻을수 있는 효과
+  
+  차이점 : 데이터베이스 컴퓨터언어를 통해 제어 가능
+  
+3~7강 codeanywhere 사용방법
+  로그인 후 
+  터미널  mysql -uroot입력
+
+
+  MySQL실습준비
+
+8강 MySQL의 구조
+
+  데이터베이스 = 스키마(표들을 그룹핑할때 스는 폴더)
+  스키마 서로 연관된 데이터를 그룹핑해준다.
+  데이터 베이스 서버를 설치 기능성을 이용해서 여러작업을 함
+
+9강 서버 접속
+
+  차등적 권한을 줄수 있는 기능을 자체적으로 가지고 있음
+
+10강 MySQL 서버접속
+
+11강 스키마의 사용
+
+  데이터베이스 생성
+  mysql> CREATE DATABASE jyh;
+  Query OK, 1 row affected (0.00 sec)
+  
+  생성된 데이터베이스 확인
+  mysql> SHOW DATABASES;
+  +--------------------+
+  | Database           |
+  +--------------------+
+  | information_schema |
+  | jyh                |
+  | mysql              |
+  | performance_schema |
+  | phpmyadmin         |
+  | sys                |
+  +--------------------+
+  6 rows in set (0.00 sec)
+
+  사용할 데이터베이스 선택
+  mysql> USE jyh;
+  Database changed
+
+12강 SQL과 테이블의 구조
+
+  SQL 
+  Structured 구조화된 
+  Query  해줘 요청 질의 
+  Language 언어 공통의 약속
+
+  언어의 특징 어떤것보다 쉬움
+
+  표 table
+  x축 row, record, 행
+  y축 column, 열
+
+13강 테이블의 생성
+
+  검색엔진 : create table in mysql
+  검색엔진 : MySQL datatype
+    mysql> USE jyh;
+  Database changed
+  mysql> CREATE TABLE topic(
+      -> id INT(11) NOT NULL AUTO_INCREMENT,
+
+14강 테이블의 생성
+
+  mysql> USE jyh;
+Database changed
+  mysql> CREATE TABLE topic(
+    -> id INT(11) NOT NULL AUTO_INCREMENT,
+    -> title VARCHAR(100) NOT NULL,
+    -> description TEXT NULL,
+    -> created DATETIME NOT NULL,
+    -> author VARCHAR(30) NULL,
+    -> profile VARCHAR(100) NULL,
+    -> PRIMARY KEY(id));
+  Query OK, 0 rows affected (0.01 sec)
+
+15강 CRUD
+  create
+  read
+  update
+  delete
+
+  검색 MySQL create row
+
+16강 INSERT
+CRUD 에서 create
+
+  토픽테이플 보기
+    mysql> DESC topic;
+  +-------------+--------------+------+-----+---------+----------------+
+  | Field       | Type         | Null | Key | Default | Extra          |
+  +-------------+--------------+------+-----+---------+----------------+
+  | id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+  | title       | varchar(100) | NO   |     | NULL    |                |
+  | description | text         | YES  |     | NULL    |                |
+  | created     | datetime     | YES  |     | NULL    |                |
+  | author      | varchar(30)  | YES  |     | NULL    |                |
+  | profile     | varchar(100) | YES  |     | NULL    |                |
+  +-------------+--------------+------+-----+---------+----------------+
+  6 rows in set (0.00 sec)
+  
+  데이터 추가하기
+  mysql> INSERT INTO topic (title, description, created, author, profile) VALUES('MySQL', 'MySQL is ...', NOW(),'egoing','developer');
+  Query OK, 1 row affected (0.00 sec)
+
+  추가한 데이터를 볼려면 ?
+  mysql> SELECT * FROM topic;
+  +----+-------+--------------+---------------------+--------+-----------+
+  | id | title | description  | created             | author | profile   |
+  +----+-------+--------------+---------------------+--------+-----------+
+  |  1 | MySQL | MySQL is ... | 2021-10-31 02:19:01 | egoing | developer |
+  +----+-------+--------------+---------------------+--------+-----------+
+  1 row in set (0.00 sec)
+
+  데이터 추가하기
+  mysql> INSERT INTO topic (title, description, created, author, profile) VALUES('SQL Server', 'SQL Server is ...', NOW(),'duru','data administrator');
+  Query OK, 1 row affected (0.01 sec)
+
+  mysql> INSERT INTO topic (title, description, created, author, profile) VALUES('PostrgreSQL', 'PostrgreSQL is ...', NOW(),'taeho','data scientist, data administrator');
+  Query OK, 1 row affected (0.01 sec)
+
+  mysql> INSERT INTO topic (title, description, created, author, profile) VALUES('MongoDB', 'MongoDB is ...', NOW(),'egoing','developer');Query OK, 1 row affected (0.00 sec)
+
+  데이터 확인
+  mysql> SELECT * FROM topic;                                             
+   +----+-------------+--------------------+---------------------+--------+------------------------------------+
+  | id | title       | description        | created             | author | profile                            |
+  +----+-------------+--------------------+---------------------+--------+------------------------------------+
+  |  1 | MySQL       | MySQL is ...       | 2021-10-31 02:19:01 | egoing | developer                          |
+  |  2 | ORACLE      | ORACLE is ...      | 2021-10-31 02:31:24 | egoing | developer                          |
+  |  3 | SQL Server  | SQL Server is ...  | 2021-10-31 02:33:25 | duru   | data administrator                 |
+  |  4 | PostrgreSQL | PostrgreSQL is ... | 2021-10-31 02:35:07 | taeho  | data scientist, data administrator |
+  |  5 | MongoDB     | MongoDB is ...     | 2021-10-31 02:36:26 | egoing | developer                          |
+  +----+-------------+--------------------+---------------------+--------+------------------------------------+
+  5 rows in set (0.00 sec)
+
+17강 SELECT
+CRUD에서 Read
+
+  모든 데이터 확인
+   SELECT * FROM 테이블이름;
+
+   데이터 선택 확인
+   SELECT id,title,created,author FROM 테이블이름;
+   컬럼가운데 원하는것만 적어서 불러올수 있음
+
+   검색 : MySQL SELECT SYNTAX
+
+   컬럼값으로 찾기
+   mysql> SELECT id,title,created,author FROM topic WHERE author='egoing';
+  +----+---------+---------------------+--------+
+  | id | title   | created             | author |
+  +----+---------+---------------------+--------+
+  |  1 | MySQL   | 2021-10-31 02:19:01 | egoing |
+  |  2 | ORACLE  | 2021-10-31 02:31:24 | egoing |
+  |  5 | MongoDB | 2021-10-31 02:36:26 | egoing |
+  +----+---------+---------------------+--------+
+  3 rows in set (0.00 sec)
+
+  id 큰순서 대로 정렬하기 , 
+  DESC 디센딩 큰 숫사부터 어쎈딩 작은 숫자부터
+  
+  mysql> mysql> SELECT id,title,created,author FROM topicauthor='egoing' ORDER BY id DESC;
+  +----+---------+---------------------+--------+
+  | id | title   | created             | author |
+  +----+---------+---------------------+--------+
+  |  5 | MongoDB | 2021-10-31 02:36:26 | egoing |
+  |  2 | ORACLE  | 2021-10-31 02:31:24 | egoing |
+  |  1 | MySQL   | 2021-10-31 02:19:01 | egoing |
+  +----+---------+---------------------+--------+
+  3 rows in set (0.00 sec)
+
+  
+  데이터 가저올때 제약을 걸어야 많은 데이터사이에서 컴퓨터를 지킬수있음;;
+  조건 가운데 2개만 가져온다.
+  mysql> SELECT id,title,created,author FROM topic WHERE author='egoing' ORDER BY id DESC LIMIT 2;
+  +----+---------+---------------------+--------+
+  | id | title   | created             | author |
+  +----+---------+---------------------+--------+
+  |  5 | MongoDB | 2021-10-31 02:36:26 | egoing |
+  |  2 | ORACLE  | 2021-10-31 02:31:24 | egoing |
+  +----+---------+---------------------+--------+
+  2 rows in set (0.00 sec)
+
+18강 INSERT
+CRUD update
+
+  검색 SQL update
+
+수정하기
+수정전 
+  mysql> SELECT * FROM topic;
++----+-------------+--------------------+---------------------+--------+------------------------------------+
+| id | title       | description        | created             | author | profile                            |
++----+-------------+--------------------+---------------------+--------+------------------------------------+
+|  1 | MySQL       | MySQL is ...       | 2021-10-31 02:19:01 | egoing | developer                          |
+|  2 | ORACLE      | ORACLE is ...      | 2021-10-31 02:31:24 | egoing | developer                          |
+|  3 | SQL Server  | SQL Server is ...  | 2021-10-31 02:33:25 | duru   | data administrator                 |
+|  4 | PostrgreSQL | PostrgreSQL is ... | 2021-10-31 02:35:07 | taeho  | data scientist, data administrator |
+|  5 | MongoDB     | MongoDB is ...     | 2021-10-31 02:36:26 | egoing | developer                          |
++----+-------------+--------------------+---------------------+--------+------------------------------------+
+5 rows in set (0.00 sec)
+
+
+수정해보자 ! id2번 값 오라클 소문자로 바꾸고 내용 오라클 소문자로 바꾸기
+
+mysql> UPDATE topic SET description='Oracle is...', title='Oracle' WHERE id=2;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+수정후
+mysql> SELECT * FROM topic;                            +----+-------------+--------------------+---------------------+--------+------------------------------------+
+| id | title       | description        | created             | author | profile                            |
++----+-------------+--------------------+---------------------+--------+------------------------------------+
+|  1 | MySQL       | MySQL is ...       | 2021-10-31 02:19:01 | egoing | developer                          |
+|  2 | Oracle      | Oracle is...       | 2021-10-31 02:31:24 | egoing | developer                          |
+|  3 | SQL Server  | SQL Server is ...  | 2021-10-31 02:33:25 | duru   | data administrator                 |
+|  4 | PostrgreSQL | PostrgreSQL is ... | 2021-10-31 02:35:07 | taeho  | data scientist, data administrator |
+|  5 | MongoDB     | MongoDB is ...     | 2021-10-31 02:36:26 | egoing | developer                          |
++----+-------------+--------------------+---------------------+--------+------------------------------------+
+5 rows in set (0.00 sec)
+
+
+19강 delete
+CRUD 마지막 Delete 
+
+  검색 엔진 : SQL DELETE 
+  
+  끝 몽고 DB를 삭제해보자
+
+  mysql> DELETE  FROM topic WHERE id=5;
+  Query OK, 1 row affected (0.01 sec)
+
+  mysql> SELECT * FROM topic;
+  +----+-------------+--------------------+---------------------+--------+------------------------------------+
+  | id | title       | description        | created             | author | profile                            |
+  +----+-------------+--------------------+---------------------+--------+------------------------------------+
+  |  1 | MySQL       | MySQL is ...       | 2021-10-31 02:19:01 | egoing | developer                          |
+  |  2 | Oracle      | Oracle is...       | 2021-10-31 02:31:24 | egoing | developer                          |
+  |  3 | SQL Server  | SQL Server is ...  | 2021-10-31 02:33:25 | duru   | data administrator                 |
+  |  4 | PostrgreSQL | PostrgreSQL is ... | 2021-10-31 02:35:07 | taeho  | data scientist, data administrator |
+  +----+-------------+--------------------+---------------------+--------+------------------------------------+
+  4 rows in set (0.00 sec)
+
+20강 수업의 정상
+
+  혁신
+   
+  본질
+  본질 데이터 베이스 관계형이건 객체지향이건 공통적으로 공유하고 있는 특징
+  그것은 CRUD 공통점
+
+  혁신은 항상 어렵다. Relational
+
+21강 관계형데이터베이스의 필요성
+
+  스프레드시트의 데이터 중복 = 개선할것이 있다라는 증거
+  1억개의 행 천만개 정도 중복이라 생각해보면 
+  여러가지 문제점 발생 
+
+  유지보수의 편의성 author에 번호를 따로 줌
+  하나의 테이블이면 직관적으로 데이터를 볼수 있음 
+  
+  테이블을 쪼개서 테이블을 보면 그 별도의 표를 보면서 2개를 봐야함
+
+  별도로 보관하면서(중복 없앰) 하나로 합쳐진 테이블을 볼수 있음
+
+22강 테이블 분리하기
+
+  토픽테이블 이름 바꾸기 빽업용
+  mysql> RENAME TABLE topic TO topic_backup;
+  Query OK, 0 rows affected (0.01 sec)
+  
+  확인
+  mysql> SELECT * FROM topic_backup;
+  +----+-------------+--------------------+---------------------+--------+------------------------------------+
+  | id | title       | description        | created             | author | profile                            |
+  +----+-------------+--------------------+---------------------+--------+------------------------------------+
+  |  1 | MySQL       | MySQL is ...       | 2021-10-31 02:19:01 | egoing | developer                          |
+  |  2 | Oracle      | Oracle is...       | 2021-10-31 02:31:24 | egoing | developer                          |
+  |  3 | SQL Server  | SQL Server is ...  | 2021-10-31 02:33:25 | duru   | data administrator                 |
+  |  4 | PostrgreSQL | PostrgreSQL is ... | 2021-10-31 02:35:07 | taeho  | data scientist, data administrator |
+  +----+-------------+--------------------+---------------------+--------+------------------------------------+
+  4 rows in set (0.00 sec)
+
+  author 테이블 만들기
+  mysql> CREATE TABLE `author` (
+    ->   `id` int(11) NOT NULL AUTO_INCREMENT,
+    ->   `name` varchar(20) NOT NULL,
+    ->   `profile` varchar(200) DEFAULT NULL,
+    ->   PRIMARY KEY (`id`)
+    -> );
+  Query OK, 0 rows affected (0.19 sec)
+  
+  author 테이블 내용 추가
+  mysql> INSERT INTO `author` VALUES (1,'egoing','developer');
+  Query OK, 1 row affected (0.00 sec)
+
+  mysql> INSERT INTO `author` VALUES (2,'duru','database administrator');
+  Query OK, 1 row affected (0.00 sec)
+
+  mysql> INSERT INTO `author` VALUES (3,'taeho','data scientist, developer');
+  Query OK, 1 row affected (0.00 sec)
+
+  mysql> 
+  mysql> SELECT * FROM author;
+  +----+--------+---------------------------+
+  | id | name   | profile                   |
+  +----+--------+---------------------------+
+  |  1 | egoing | developer                 |
+  |  2 | duru   | database administrator    |
+  |  3 | taeho  | data scientist, developer |
+  +----+--------+---------------------------+
+  3 rows in set (0.00 sec)
+
+  토픽 테이블 다시만들기
+  mysql> CREATE TABLE `topic` (
+    ->   `id` int(11) NOT NULL AUTO_INCREMENT,
+    ->   `title` varchar(30) NOT NULL,
+    ->   `description` text,
+    ->   `created` datetime NOT NULL,
+    ->   `author_id` int(11) DEFAULT NULL,
+    ->   PRIMARY KEY (`id`)
+    -> );
+  Query OK, 0 rows affected (0.01 sec)
+
+  토픽 테이블 확인
+  mysql> SELECT * FROM topic;
+  Empty set (0.00 sec)
+
+  토픽 테이블 정보 추가하기
+  mysql> INSERT INTO `topic` VALUES (1,'MySQL','MySQL is...','2018-01-01 12:10:11',1);
+  Query OK, 1 row affected (0.00 sec)
+
+  mysql> INSERT INTO `topic` VALUES (2,'Oracle','Oracle is ...','2018-01-03 13:01:10',1);
+  Query OK, 1 row affected (0.00 sec)
+
+  mysql> INSERT INTO `topic` VALUES (3,'SQL Server','SQL Server is ...','2018-01-20 11:01:10',2);
+  Query OK, 1 row affected (0.00 sec)
+
+  mysql> INSERT INTO `topic` VALUES (4,'PostgreSQL','PostgreSQL is ...','2018-01-23 01:03:03',3);
+  Query OK, 1 row affected (0.00 sec)
+
+  mysql> INSERT INTO `topic` VALUES (5,'MongoDB','MongoDB is ...','2018-01-30 12:31:03',1);
+  Query OK, 1 row affected (0.00 sec)
+  
+  토픽 테이블 확인
+  mysql> SELECT * FROM topic;
+  mysql> SELECT * FROM topic;
++----+------------+-------------------+---------------------+-----------+
+| id | title      | description       | created             | author_id |
++----+------------+-------------------+---------------------+-----------+
+|  1 | MySQL      | MySQL is...       | 2018-01-01 12:10:11 |         1 |
+|  2 | Oracle     | Oracle is ...     | 2018-01-03 13:01:10 |         1 |
+|  3 | SQL Server | SQL Server is ... | 2018-01-20 11:01:10 |         2 |
+|  4 | PostgreSQL | PostgreSQL is ... | 2018-01-23 01:03:03 |         3 |
+|  5 | MongoDB    | MongoDB is ...    | 2018-01-30 12:31:03 |         1 |
++----+------------+-------------------+---------------------+-----------+
+5 rows in set (0.00 sec)
+
+
+23강 JOIN
+
+  두 테이블 합치기
+  토픽테이블 왼쪽에 있게 조인 author 온(접합부위) 토픽 테이블 author_id 값과
+  author 테이블 id 값이 같다.라고 말해줌
+
+  mysql> SELECT * FROM topic LEFT JOIN author ON topic.author_id = author.id; 
+  +----+------------+-------------------+---------------------+-----------+------+--------+---------------------------+
+  | id | title      | description       | created             | author_id | id   | name   | profile                   |
+  +----+------------+-------------------+---------------------+-----------+------+--------+---------------------------+
+  |  1 | MySQL      | MySQL is...       | 2018-01-01 12:10:11 |         1 |    1 | egoing | developer                 |
+  |  2 | Oracle     | Oracle is ...     | 2018-01-03 13:01:10 |         1 |    1 | egoing | developer                 |
+  |  5 | MongoDB    | MongoDB is ...    | 2018-01-30 12:31:03 |         1 |    1 | egoing | developer                 |
+  |  3 | SQL Server | SQL Server is ... | 2018-01-20 11:01:10 |         2 |    2 | duru   | database administrator    |
+  |  4 | PostgreSQL | PostgreSQL is ... | 2018-01-23 01:03:03 |         3 |    3 | taeho  | data scientist, developer |
+  +----+------------+-------------------+---------------------+-----------+------+--------+---------------------------+
+  5 rows in set (0.00 sec)
+
+  토픽테이블의 author 아이디 값과 id값은 빼도 된다. 
+  그럴 경우 
+  셀렉 뒤에 조절
+  mysql> SELECT topic.id, title, description, created, name, profile  FROM topic LEFT JOIN author ON topic.author_id = author.id;
+  +----+------------+-------------------+---------------------+--------+---------------------------+
+  | id | title      | description       | created             | name   | profile                   |
+  +----+------------+-------------------+---------------------+--------+---------------------------+
+  |  1 | MySQL      | MySQL is...       | 2018-01-01 12:10:11 | egoing | developer                 |
+  |  2 | Oracle     | Oracle is ...     | 2018-01-03 13:01:10 | egoing | developer                 |
+  |  5 | MongoDB    | MongoDB is ...    | 2018-01-30 12:31:03 | egoing | developer                 |
+  |  3 | SQL Server | SQL Server is ... | 2018-01-20 11:01:10 | duru   | database administrator    |
+  |  4 | PostgreSQL | PostgreSQL is ... | 2018-01-23 01:03:03 | taeho  | data scientist, developer |
+  +----+------------+-------------------+---------------------+--------+---------------------------+
+  5 rows in set (0.00 sec)
+
+  다시 합친표에서 id값을 토픽_id로 바꾸려면
+  토픽 아이디값 뒤에 AS 하고 topic_id로 해주면 된다.
+
+  mysql> mysql> SELECT topic.id AS topic_id, title, description, created, name, profile  FROM topic LEFT JOIN author ON topic.author_id = author.id;
+  +----------+------------+-------------------+---------------------+--------+---------------------------+
+  | topic_id | title      | description       | created             | name   | profile                   |
+  +----------+------------+-------------------+---------------------+--------+---------------------------+
+  |        1 | MySQL      | MySQL is...       | 2018-01-01 12:10:11 | egoing | developer                 |
+  |        2 | Oracle     | Oracle is ...     | 2018-01-03 13:01:10 | egoing | developer                 |
+  |        5 | MongoDB    | MongoDB is ...    | 2018-01-30 12:31:03 | egoing | developer                 |
+  |        3 | SQL Server | SQL Server is ... | 2018-01-20 11:01:10 | duru   | database administrator    |
+  |        4 | PostgreSQL | PostgreSQL is ... | 2018-01-23 01:03:03 | taeho  | data scientist, developer |
+  +----------+------------+-------------------+---------------------+--------+---------------------------+
+  5 rows in set (0.00 sec)
+
+
+24강 인터넷과 데이터베이스 
+
+  database Server는 반드시 데이터베이스 클라이언트를 사용해야함
+  우리가 쓴 Mysql은 모니터 즉 클라이언트 하나였음
+  우리는 데이터베이스 클라이언트로 서버와 연동했을뿐
+
+  폰노이만 엔지니어 겸 과학자 컴퓨터를 만든사람
+  수학은 이해하는것이 아니라 익숙해지는것이라네 
+  
+  공부의 목표는 이해가 아니라 익숙해지는 것
+  그 익숙해지는것의 하나가 이해이고 암기다.
+  우리가 배우고 있는것은 추상적인것임에도 물질인것처럼 인지
+
+25강 MySQL Client
+
+  MySQL어디서든 실행 가능 명령어를 통해서 제어
+  명령어를 기억해야하는 단점있음
+  검색엔진으로 해결가능
+  낮설어서 그렇지만
+  GUI는 클릭클릭으로 할수있음 
+  GUI기반의 프로그램과 명령어기반은 장점과 단점이 있음
+  그것들만의 장점만을 취할수 있는 능력이 팁이다.
+
+   검색엔진 MySQL Client
+
+26강 MySQL Workbench
+
+  검색 엔진 으로 검색
+  설치
+
+27강 수업을 마치며
+
+  배운것으로 자신의 문제를 해결해보자
+  
+  SQL틈틈히 배워나가라! 
+  
+  테이블 모델링 정규화 비정규화 
+  modeling
+  
+  backup 
+    데이터 유실에 대해 주의해야한다.
+    mysqldump, binary log
+  
+  cloud 임대사용 
+    AWS RDS
+    GOOGLE CLOUD SQL FOR MySQL
+    AZURE DATAVASE FOR MySQL
+
+  현대에는 데이터베이스를 부품으로 씀 
+    Python mysql api
+    PHP mysql api
+    java mysql api
